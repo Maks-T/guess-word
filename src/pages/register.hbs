@@ -28,24 +28,16 @@
 
   </head>
   <body>
-    <header class='header'>
-      {{#if userInfo.name}}
-        {{userInfo.name}}
-      {{/if}}
-    </header>
     <div class='wrapper'>
       <div class='content' role='main'>
 
         <!-- This is the start of content for our page -->
         <h1 class='title'>Игра: угадай слово!</h1>
 
-        <!-- Add text indicating that we've changed color OR had an error -->
-
-        <a href='/rooms/create' class='btn-create-room'>Создать комнату</a>
-
-        <h2>Войти в комнату</h2>
-        <div class='rooms' id='rooms'>
-
+        <label>Введите Ваше имя:</label>
+        <input type="text" id="inputName">
+        
+        <button id="btn-save-name" data-back-url="{{ backUrl }}">Сохранить</button>
         </div>
 
       </div>
@@ -58,6 +50,6 @@
     <script
       src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js'
     ></script>
-    <script src='script.js'></script>
+    <script src='register.js'></script>
   </body>
 </html>

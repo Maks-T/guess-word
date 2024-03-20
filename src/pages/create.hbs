@@ -26,13 +26,11 @@
     <!-- Import the webpage's stylesheet -->
     <link rel='stylesheet' href='/style.css' />
 
+    <!-- This is a handlebars IF statement
+         Checking for a custom "color" parameter from server.js -->
+
   </head>
   <body>
-    <header class='header'>
-      {{#if userInfo.name}}
-        {{userInfo.name}}
-      {{/if}}
-    </header>
     <div class='wrapper'>
       <div class='content' role='main'>
 
@@ -40,13 +38,7 @@
         <h1 class='title'>Игра: угадай слово!</h1>
 
         <!-- Add text indicating that we've changed color OR had an error -->
-
-        <a href='/rooms/create' class='btn-create-room'>Создать комнату</a>
-
-        <h2>Войти в комнату</h2>
-        <div class='rooms' id='rooms'>
-
-        </div>
+        asda33333333
 
       </div>
     </div>
@@ -58,6 +50,6 @@
     <script
       src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js'
     ></script>
-    <script src='script.js'></script>
+    <script src='create.js'></script>
   </body>
 </html>

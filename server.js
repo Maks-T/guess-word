@@ -11,9 +11,11 @@ const fastify = require('fastify')({
   logger: false,
 });
 
-fastify.register(require('fastify-socket.io'), {
-  // put your options here
-});
+fastify.register(require('@fastify/cookie'), { decodeValues: true });
+
+fastify.register(require('fastify-socket.io'), {});
+
+const users = {};
 
 const rooms = [
   {
@@ -56,6 +58,13 @@ fastify.register(require('@fastify/view'), {
   engine: {
     handlebars: require('handlebars'),
   },
+  includeViewExtension: true, // add this line to include view extension
+  templates: './src/pages', // set templates folder
+
+  partials: {
+    header: './src/components/header.hbs',
+    footer: './src/components/footer.hbs',
+  },
 });
 
 // Load and parse SEO data
@@ -63,6 +72,24 @@ const seo = require('./src/seo.json');
 if (seo.url === 'glitch-default') {
   seo.url = `https://${process.env.PROJECT_DOMAIN}.glitch.me`;
 }
+
+const getUserInfo = (request) => {
+  const { cookies } = request;
+
+  // Проверяем наличие параметра name в куках
+  if (cookies && cookies.userInfo) {
+    const userInfo = JSON.parse(cookies.userInfo);
+    // Если параметр name существует, возвращаем главную страницу
+    if (userInfo.id && userInfo.name) return userInfo;
+  }
+
+  return false;
+};
+
+const saveUser = (userInfo) => {
+  const { id, name } = userInfo;
+  users[id] = userInfo;
+};
 
 /**
  * Our home page route
@@ -73,17 +100,15 @@ fastify.get('/', function (request, reply) {
   // params is an object we'll pass to our handlebars template
   let params = { seo: seo };
 
-  // If someone clicked the option for a random color it'll be passed in the querystring
-  if (request.query.randomize) {
-    params = {
-      seo: seo,
-    };
-  }
-
+  const userInfo = getUserInfo(request);
   fastify.io.emit('hello');
 
-  // The Handlebars code will be able to access the parameter values and build them into the page
-  return reply.view('/src/pages/index.hbs', params);
+  if (userInfo) {
+    saveUser(userInfo);
+    return reply.view('index.hbs', { userInfo, ...params });
+  }
+
+  return reply.view('register.hbs', { backUrl: '' });
 });
 
 fastify.get('/room/:roomId', function (request, reply) {
@@ -98,7 +123,24 @@ fastify.get('/room/:roomId', function (request, reply) {
   }
 
   // The Handlebars code will be able to access the parameter values and build them into the page
-  return reply.view('/src/pages/room.hbs', params);
+  return reply.view('room.hbs', params);
+});
+
+fastify.get('/create', function (request, reply) {
+  // Build the params object to pass to the template
+  let params = { seo: seo };
+
+  const userInfo = getUserInfo(request);
+  fastify.io.emit('hello');
+
+  if (userInfo) {
+    saveUser(userInfo);
+    return reply.view('create.hbs', params);
+  }
+
+  return reply.view('register.hbs', { backUrl: 'create' });
+
+  // The Handlebars template will use the parameter values to update the page with the chosen color
 });
 
 /**
@@ -106,12 +148,12 @@ fastify.get('/room/:roomId', function (request, reply) {
  *
  * Accepts body data indicating the user choice
  */
-fastify.post('/', function (request, reply) {
+fastify.post('/create', function (request, reply) {
   // Build the params object to pass to the template
   let params = { seo: seo };
 
   // The Handlebars template will use the parameter values to update the page with the chosen color
-  return reply.view('/src/pages/index.hbs', params);
+  return reply.view('index.hbs', params);
 });
 
 // Run the server and report out to the logs
