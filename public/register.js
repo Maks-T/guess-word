@@ -38,5 +38,5 @@ saveNameBtn.addEventListener('click', function () {
   }
 
   const backUrl = saveNameBtn.dataset.backUrl ?? '';
-  window.location.href = `/${backUrl}`;
+  window.location.href = `/${backUrl}`.replace('//', '/');
 });

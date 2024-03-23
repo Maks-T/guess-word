@@ -1,4 +1,4 @@
-<html lang='en'>
+<html>
   <head>
 
     <!-- 
@@ -29,21 +29,26 @@
   </head>
   <body>
     <header class='header'>
-      {{#if userInfo.name}}
-        {{userInfo.name}}
-      {{/if}}
+      <div class='header__content'>
+       <h1 class='title'>Игра: угадай слово!</h1>
+         {{#if userInfo.name}}
+             <div class="profile"><span class="profile__icon"></span><span class="profile__name">{{userInfo.name}}</span></div>
+         {{/if}}
+      </div>
     </header>
     <div class='wrapper'>
       <div class='content' role='main'>
 
         <!-- This is the start of content for our page -->
-        <h1 class='title'>Игра: угадай слово!</h1>
+
 
         <!-- Add text indicating that we've changed color OR had an error -->
 
-        <a href='/rooms/create' class='btn-create-room'>Создать комнату</a>
+        <a href='/create' class='button-link' >Создать комнату</a>
+         {{#if isRooms}}
+                <h2 class="rooms__title">Комнаты</h2>
+          {{/if}}
 
-        <h2>Войти в комнату</h2>
         <div class='rooms' id='rooms'>
 
         </div>

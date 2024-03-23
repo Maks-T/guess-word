@@ -1,34 +1,211 @@
+
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global styles */
 body {
-  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+
 }
 
 .wrapper {
-  width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
-  height: auto;
-  background-color: rgba(195, 255, 241, 0.718);
+
+  min-height: 80vh;
 }
 
-h1 {
-  font-weight: 700;
+.header {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: right;
+  height: 9vh;
+}
+
+.header__content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: max-content;
+  cursor: pointer;
+}
+
+.profile:hover {
+  opacity: 0.85;
+}
+
+.profile__icon {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129"><g><g><path d="m64.3,71.6c18,0 32.6-14.6 32.6-32.6s-14.6-32.5-32.6-32.5-32.6,14.6-32.6,32.5 14.6,32.6 32.6,32.6zm0-56.6c13.2,0 24,10.8 24,24s-10.8,24-24,24-24-10.8-24-24 10.8-24 24-24z" fill="white" /><path d="m7.9,122.5h113.2c2.4,0 4.3-1.9 4.3-4.3 0-22.5-18.3-40.9-40.9-40.9h-40c-22.5,0-40.9,18.3-40.9,40.9-1.33227e-15,2.4 1.9,4.3 4.3,4.3zm36.6-36.6h40c16.4,0 29.9,12.2 32,28h-104c2.1-15.7 15.6-28 32-28z" fill="white" /></g></g></svg>');
+
+  background-repeat: no-repeat;
+  background-size: contain;
+
+}
+
+.profile__name {
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+
+.title {
+  display: inline-block;
   font-size: 20px;
 }
 
-.btn-create-room {
+.room {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  gap: 10px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  width: min-content;
+
 }
 
 .rooms {
-  padding: 10px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: auto;
-
+  display: flex;
   gap: 10px;
 }
 
-.room {
-  padding: 4px 15px;
-  border: 1px solid purple;
-  border-radius: 4px;
+.room a {
+  background: #007bff;
+  border-radius: 2px;
+  padding: 0 2px;
+  color: white;
+  text-decoration: none;
+
+}
+
+
+.room-name {
+
+}
+
+.room-name span:first-child {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.users {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+
+
+}
+
+.user {
+  display: grid;
+  grid-template-columns: repeat(2, min-content);
+  grid-template-rows: repeat(2, min-content);
+
+  grid-template-areas:
+     "icon name"
+     "icon word"
+  ;
+
+  align-items: center;
+
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  width: min-content;
+}
+
+.user span:nth-child(1) {
+  grid-area: icon;
+}
+
+.user span:nth-child(2) {
+  grid-area: name;
+
+}
+
+.user span:nth-child(3) {
+  grid-area: word;
+  background: #007bff;
+  padding: 4px 10px;
+  border-radius: 2px;
+  color: white;
+}
+
+.user span:nth-child(3):empty {
+  display: none;
+}
+
+
+.user span:first-child {
+  width: 18px;
+  height: 18px;
+  background-color: #c7d3e1;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.footer {
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  height: 8vh;
+}
+
+
+/* Общие стили кнопок ссылок */
+.button-link {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 1rem;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Стили при наведении */
+.button-link:hover {
+  background-color: #0056b3;
+}
+
+/* Стили при нажатии */
+.button-link:active {
+  background-color: #004080;
 }

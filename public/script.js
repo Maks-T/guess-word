@@ -12,14 +12,14 @@ socket.emit('connection');
 
 socket.on('rooms', (rooms) => {
   console.log('rooms update');
-  roomsElem.innerHTML = '';
 
-  rooms.forEach((room) => {
-    roomsElem.innerHTML += `
+  Object.values(rooms).forEach((room) => {
+    roomsElem.innerHTML += `       
         <div class="room">
           <p>${room.name}</p>
-          <a href="/room/${room.id}">перейти</a>
+          <a href="/room/${room.id}">войти</a>
         </div>
       `;
   });
+
 });

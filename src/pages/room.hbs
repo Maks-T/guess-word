@@ -1,4 +1,4 @@
-<html lang="en">
+<html>
   <head>
 
     <!-- 
@@ -37,17 +37,38 @@
     {{/if}}
   </head>
   <body>
+    <header class='header'>
+             <div class='header__content'>
+              <h1 class='title'>Игра: угадай слово!</h1>
+                {{#if user.name}}
+                    <div class="profile"><span class="profile__icon"></span><span class="profile__name">{{user.name}}</span></div>
+                {{/if}}
+             </div>
+        </header>
+
     <div class="wrapper">
       <div class="content" role="main">
 
-        <!-- This is the start of content for our page -->
-        <h1 class="title">Игра: угадай слово!</h1>
-
         <!-- Add text indicating that we've changed color OR had an error -->
-       
-        <div class="rooms" id="rooms">
-          asdadasdasdasd
-          
+        <div class="room-name"><span>Комната:</span><span>{{room.name}}</span></div>
+
+        {{#unless user.word}}
+           <div class="form-word">
+             <label>Введите ваше слово:</label>
+             <input type="text" id="input-add-word">
+             <button id="btn-add-word" class="button-link" data-user-id="{{user.id}}" data-room-id="{{room.id}}">Сохранить</button>
+           </div>
+        {{/unless}}
+
+        <div class="users" id="users">
+           {{!-- <div class="user"><span></span><span>{{admin.name}}</span></div> --}}
+           {{#each room.users}}
+               <div class="user">
+               <span></span>
+               <span>{{this.name}}</span>
+               <span>{{this.word}}</span>
+               </div>
+           {{/each}}
         </div>
         
 
@@ -59,6 +80,6 @@
     </footer>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
-    <script src="script.js"></script>
+    <script src="/room.js"></script>
   </body>
 </html>
