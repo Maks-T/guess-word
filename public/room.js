@@ -1,7 +1,7 @@
 const socket = io();
 
-const formAddWord =  document.getElementById('form-add-word');
-const formWord =  document.getElementById('form-word');
+const formAddWord = document.getElementById('form-add-word');
+const formWord = document.getElementById('form-word');
 const usersElem = document.getElementById('users');
 const btnAddWordElem = document.getElementById('btn-add-word');
 const inputAddWordElem = document.getElementById('input-add-word');
@@ -10,11 +10,11 @@ const btnStartElem = document.getElementById('btn-start');
 
 btnStartElem && btnStartElem.addEventListener('click', () => {
 
-   if (!btnStartElem.disabled) {
-       const roomId = btnStartElem.dataset.roomId;
+    if (!btnStartElem.disabled) {
+        const roomId = btnStartElem.dataset.roomId;
 
-       socket.emit('addWord', {roomId});
-   }
+        socket.emit('startGame', {roomId});
+    }
 })
 
 socket.on('hello', () => {
@@ -25,31 +25,58 @@ socket.emit('connection');
 
 
 const roomId = btnAddWordElem.dataset.roomId;
+const userId = usersElem.dataset.userId;
 socket.on(`roomUpdate${roomId}`, (data) => {
 
-    const {room, user} = data;
+    const {room} = data;
+
+
 
     console.log('rooms update', room);
-   // usersElem.innerHTML = `<div class="admin"><span></span><span>${admin.name}</span></div>`;
-    usersElem.innerHTML = '';
+    if (!room.isStart) {
+        // usersElem.innerHTML = `<div class="admin"><span></span><span>${admin.name}</span></div>`;
+        usersElem.innerHTML = '';
 
-    Object.values(room.users).forEach((user) => {
-        usersElem.innerHTML += `
+        Object.values(room.users).forEach((user) => {
+            usersElem.innerHTML += `
          <div class="user"><span></span><span>${user.name}</span><span>${user.word ? 'готов!' : ''}</span></div>
       `;
-    });
+        });
 
-    if (Object.values(room.users).every((user) => user.word)) {
-        btnStartElem.disabled = false;
-    } else {
-        btnStartElem.disabled = true;
+        const users = Object.values(room.users);
+
+        if (btnStartElem) {
+            if (users.length > 1 && users.every((user) => user.word)) {
+                btnStartElem.disabled = false;
+            } else {
+                btnStartElem.disabled = true;
+            }
+        }
+
     }
 
+    if (room.isStart) {
+        usersElem.innerHTML = '';
+        const words = Object.values(room.users).map((user) => user.word);
+        const lastElement = words.pop();
+        words.unshift(lastElement);
+
+        Object.values(room.users).forEach((user, i) => {
+            usersElem.innerHTML += `
+         <div class="user"><span></span><span>${user.name}</span><span>${user.id === userId ? '?' : words[i]}</span></div>
+      `;
+        });
+
+        if (btnStartElem) {
+            btnStartElem.style.display = 'none';
+        }
+
+    }
 
 });
 
 btnAddWordElem.addEventListener('click', () => {
-    const word  = inputAddWordElem.value;
+    const word = inputAddWordElem.value;
 
     if (word) {
         formAddWord.style.display = 'none';
@@ -60,7 +87,7 @@ btnAddWordElem.addEventListener('click', () => {
         const roomId = btnAddWordElem.dataset.roomId;
 
         if (userId && roomId) {
-           socket.emit('addWord', {word, userId, roomId});
+            socket.emit('addWord', {word, userId, roomId});
         }
     }
 })

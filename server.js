@@ -115,10 +115,12 @@ fastify.get('/room/:roomId', function (request, reply) {
 
         const user = room.users[userInfo.id];
         user.isAdmin = user.id === room.admin.id
-console.log(user)
+
         const data = {room, user};
 
-        fastify.io.emit(`roomUpdate${roomId}`, data);
+        setTimeout(() => {
+            fastify.io.emit(`roomUpdate${roomId}`, data);
+        }, 100);
 
         return reply.view('room.hbs', data);
     }
@@ -210,8 +212,15 @@ function socketEvents(io) {
                 console.log(`roomUpdate${roomId}`, room)
                 fastify.io.emit(`roomUpdate${roomId}`, {room});
             }
+        });
 
+        io.on('startGame', (data) => {
+            const {roomId} = data;
+            const room = rooms[roomId];
 
+            room.isStart = true;
+
+            fastify.io.emit(`roomUpdate${roomId}`, {room});
         });
 
         io.on('disconnect', () => {

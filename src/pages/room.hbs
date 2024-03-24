@@ -65,19 +65,8 @@
         </div>
 
 
-        <div class="users" id="users">
-           {{!-- <div class="user"><span></span><span>{{admin.name}}</span></div> --}}
-           {{#each room.users}}
-               <div class="user">
-               <span></span>
-               <span>{{this.name}}</span>
+        <div class="users" id="users" data-user-id="{{user.id}}">
 
-               <span>{{#if this.word}}
-                         готов!
-                   {{/if}}
-                </span>
-               </div>
-           {{/each}}
         </div>
 
         {{#if user.isAdmin}}
@@ -88,7 +77,7 @@
     </div>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
     <footer class="footer">
-
+       <a href="/" class="footer__link">Все комнаты</a>
     </footer>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>

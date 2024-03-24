@@ -77,6 +77,14 @@ body {
   font-size: 20px;
 }
 
+
+.rooms {
+  display: flex;
+  gap: 10px;
+
+  transition: all 0.4s;
+}
+
 .room {
   display: flex;
   align-items: center;
@@ -87,12 +95,9 @@ body {
   border-radius: 8px;
   width: min-content;
 
+  transition: all 0.4s;
 }
 
-.rooms {
-  display: flex;
-  gap: 10px;
-}
 
 .room a {
   background: #007bff;
@@ -118,7 +123,7 @@ body {
   gap: 10px;
   margin-top: 20px;
 
-
+  transition: all 0.4s;
 }
 
 .user {
@@ -138,6 +143,8 @@ body {
   border: 2px solid #007bff;
   border-radius: 8px;
   width: min-content;
+
+  transition: all 0.4s;
 }
 
 .user span:nth-child(1) {
@@ -185,6 +192,10 @@ body {
   height: 8vh;
 }
 
+.footer__link {
+  color: #fff;
+
+}
 
 /* Общие стили кнопок ссылок */
 .button-link {
