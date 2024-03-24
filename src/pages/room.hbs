@@ -52,13 +52,18 @@
         <!-- Add text indicating that we've changed color OR had an error -->
         <div class="room-name"><span>Комната:</span><span>{{room.name}}</span></div>
 
-        {{#unless user.word}}
-           <div class="form-word">
+           <div class="form-word" id="form-add-word"
+           style="{{#if user.word}} display: none {{else}} display: block {{/if}}">
              <label>Введите ваше слово:</label>
              <input type="text" id="input-add-word">
              <button id="btn-add-word" class="button-link" data-user-id="{{user.id}}" data-room-id="{{room.id}}">Сохранить</button>
            </div>
-        {{/unless}}
+
+        <div class="form-word" id="form-word"
+           style="{{#if user.word}} display: block {{else}} display: none {{/if}}">
+           <div><span>Ваше слово:<span><span id="your-word">{{user.word}}<span></div>
+        </div>
+
 
         <div class="users" id="users">
            {{!-- <div class="user"><span></span><span>{{admin.name}}</span></div> --}}
@@ -66,7 +71,11 @@
                <div class="user">
                <span></span>
                <span>{{this.name}}</span>
-               <span>{{this.word}}</span>
+
+               <span>{{#if this.word}}
+                         готов!
+                   {{/if}}
+                </span>
                </div>
            {{/each}}
         </div>

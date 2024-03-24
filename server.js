@@ -11,19 +11,7 @@ const fastify = require('fastify')({
     logger: false,
 });
 
-function generateId() {
-    const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomString = '';
-
-    for (let i = 0; i < 5; i++) {
-        randomString += characters.charAt(
-            Math.floor(Math.random() * characters.length)
-        );
-    }
-
-    return randomString;
-}
+const {generateId} = require('./src/helpers/index.js');
 
 fastify.register(require('@fastify/cookie'), {decodeValues: true});
 
@@ -99,7 +87,7 @@ fastify.get('/', function (request, reply) {
     const isRooms = Object.keys(rooms).length;
     if (userInfo) {
         saveUser(userInfo);
-        return reply.view('index.hbs', {userInfo, isRooms ,...params});
+        return reply.view('index.hbs', {userInfo, isRooms, ...params});
     }
 
     return reply.view('register.hbs', {backUrl: ''});
@@ -107,7 +95,7 @@ fastify.get('/', function (request, reply) {
 
 fastify.get('/room/:roomId', function (request, reply) {
     // params is an object we'll pass to our handlebars template
-    let params = { seo: seo };
+    let params = {seo: seo};
 
     const roomId = request.params.roomId ?? null;
     if (!roomId) return reply.redirect('/');
@@ -120,22 +108,21 @@ fastify.get('/room/:roomId', function (request, reply) {
 
     if (userInfo) {
         saveUser(userInfo);
-        if (!room.usersId.includes(userInfo.id)) {
-            room.usersId.push(userInfo.id);
+
+        if (!room.users[userInfo.id]) {
+            room.users[userInfo.id] = {...userInfo}
         }
-        room.users = room.usersId.map(id => users[id]);
 
-        const admin = users[room.adminId];
-        const user = room.users.find(user => user.id === userInfo.id);
+        const user = room.users[userInfo.id];
 
-        const data = { room, admin, user };
+        const data = {room, user};
 
         fastify.io.emit(`roomUpdate${roomId}`, data);
 
         return reply.view('room.hbs', data);
     }
 
-    return reply.view('register.hbs', { backUrl: `/room/${roomId}`, ...params });
+    return reply.view('register.hbs', {backUrl: `/room/${roomId}`, ...params});
 });
 
 
@@ -171,8 +158,10 @@ fastify.post('/create', function (request, reply) {
 
     const id = generateId();
 
+    const admin = users[adminId];
+
     rooms[id] = {
-        id, name, adminId, usersId: []
+        id, name, admin, users: {}
     }
 
     // The Handlebars template will use the parameter values to update the page with the chosen color
@@ -212,14 +201,16 @@ function socketEvents(io) {
         io.on('addWord', (data) => {
             const {word, userId, roomId} = data;
             const room = rooms[roomId];
-            const user = room.users.find(user => user.id === userId);
+            const user = room.users[userId] ?? null;
 
             if (user) {
                 user.word = word;
+
+                console.log(`roomUpdate${roomId}`, room)
+                fastify.io.emit(`roomUpdate${roomId}`, {room});
             }
 
-            console.log(`roomUpdate${roomId}`, room)
-            fastify.io.emit(`roomUpdate${roomId}`, {room});
+
         });
 
         io.on('disconnect', () => {

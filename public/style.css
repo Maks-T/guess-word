@@ -150,11 +150,13 @@ body {
 }
 
 .user span:nth-child(3) {
+  display: inline-block;
   grid-area: word;
-  background: #007bff;
   padding: 4px 10px;
-  border-radius: 2px;
-  color: white;
+  font-weight: 600;
+
+  color: orangered;
+  text-shadow: #baff00e6 1px 1px 5px;
 }
 
 .user span:nth-child(3):empty {
