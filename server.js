@@ -114,7 +114,8 @@ fastify.get('/room/:roomId', function (request, reply) {
         }
 
         const user = room.users[userInfo.id];
-
+        user.isAdmin = user.id === room.admin.id
+console.log(user)
         const data = {room, user};
 
         fastify.io.emit(`roomUpdate${roomId}`, data);

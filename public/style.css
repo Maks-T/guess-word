@@ -202,6 +202,20 @@ body {
   transition: background-color 0.3s ease;
 }
 
+.button-link:disabled {
+  background-color: rgb(200, 203, 211);
+  cursor: not-allowed;
+}
+
+.button-link:hover:disabled {
+  background-color: rgb(200, 203, 211);
+
+}
+.button-link:active:disabled {
+  background-color: rgb(200, 203, 211);
+}
+
+
 /* Стили при наведении */
 .button-link:hover {
   background-color: #0056b3;

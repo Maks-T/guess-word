@@ -6,6 +6,17 @@ const usersElem = document.getElementById('users');
 const btnAddWordElem = document.getElementById('btn-add-word');
 const inputAddWordElem = document.getElementById('input-add-word');
 
+const btnStartElem = document.getElementById('btn-start');
+
+btnStartElem && btnStartElem.addEventListener('click', () => {
+
+   if (!btnStartElem.disabled) {
+       const roomId = btnStartElem.dataset.roomId;
+
+       socket.emit('addWord', {roomId});
+   }
+})
+
 socket.on('hello', () => {
     console.log('hello');
 });
@@ -27,6 +38,14 @@ socket.on(`roomUpdate${roomId}`, (data) => {
          <div class="user"><span></span><span>${user.name}</span><span>${user.word ? 'готов!' : ''}</span></div>
       `;
     });
+
+    if (Object.values(room.users).every((user) => user.word)) {
+        btnStartElem.disabled = false;
+    } else {
+        btnStartElem.disabled = true;
+    }
+
+
 });
 
 btnAddWordElem.addEventListener('click', () => {

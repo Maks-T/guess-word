@@ -79,13 +79,16 @@
                </div>
            {{/each}}
         </div>
-        
+
+        {{#if user.isAdmin}}
+        <button class="button-link" id="btn-start" disabled data-room-id="{{room.id}}">Начать игру</button>
+        {{/if}}
 
       </div>
     </div>
     <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
     <footer class="footer">
-     
+
     </footer>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
