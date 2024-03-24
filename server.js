@@ -85,6 +85,7 @@ fastify.get('/', function (request, reply) {
     fastify.io.emit('hello');
 
     const isRooms = Object.keys(rooms).length;
+
     if (userInfo) {
         saveUser(userInfo);
         return reply.view('index.hbs', {userInfo, isRooms, ...params});
@@ -118,9 +119,8 @@ fastify.get('/room/:roomId', function (request, reply) {
 
         const data = {room, user};
 
-        setTimeout(() => {
-            fastify.io.emit(`roomUpdate${roomId}`, data);
-        }, 100);
+
+        fastify.io.emit(`roomUpdate${roomId}`, data);
 
         return reply.view('room.hbs', data);
     }
@@ -180,28 +180,28 @@ fastify.listen(
             process.exit(1);
         }
         console.log(`Your app is listening on ${address}`);
-        socketEvents(fastify.io);
+        socketEvents(fastify);
     }
 );
 
-function socketEvents(io) {
-    io.on('connection', (io) => {
+function socketEvents(fastify) {
+    fastify.io.on('connection', (socket) => {
         console.log('Новый пользователь подключился');
 
-        io.emit('hello');
-        io.emit('rooms', rooms);
+        socket.emit('hello');
+        socket.emit('rooms', rooms); //ToDo only index page
 
-        io.on('message', (data) => {
-            console.log('Получено сообщение от клиента:', data);
-            io.emit('message', data);
+        socket.on('getRoom', (data) => {
+            const {roomId} = data;
+
+            if (roomId) {
+                const room = rooms[roomId];
+                console.log(`roomUpdate${roomId}`, room)
+                room && fastify.io.emit(`roomUpdate${roomId}`, {room});
+            }
         });
 
-        io.on('getRoomInfo', (data) => {
-            console.log('Получено сообщение от клиента:', data);
-            io.emit('roomInfo', rooms);
-        });
-
-        io.on('addWord', (data) => {
+        socket.on('addWord', (data) => {
             const {word, userId, roomId} = data;
             const room = rooms[roomId];
             const user = room.users[userId] ?? null;
@@ -212,9 +212,10 @@ function socketEvents(io) {
                 console.log(`roomUpdate${roomId}`, room)
                 fastify.io.emit(`roomUpdate${roomId}`, {room});
             }
+
         });
 
-        io.on('startGame', (data) => {
+        socket.on('startGame', (data) => {
             const {roomId} = data;
             const room = rooms[roomId];
 
@@ -223,7 +224,7 @@ function socketEvents(io) {
             fastify.io.emit(`roomUpdate${roomId}`, {room});
         });
 
-        io.on('disconnect', () => {
+        socket.on('disconnect', () => {
             console.log('Пользователь отключился');
         });
     });

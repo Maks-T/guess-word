@@ -1,5 +1,5 @@
 <html>
-  <head>
+<head>
 
     <!-- 
       This is the main Handlebars template for the site 
@@ -7,80 +7,86 @@
       - The server script passes data in here and the Handlebars code builds it into the HTML page
     -->
 
-    <meta charset="utf-8" />
-    <link rel="icon" href="https://glitch.com/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <link rel="icon" href="https://glitch.com/favicon.ico"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>{{seo.title}}</title>
 
     <!-- Meta tags for SEO and social sharing -->
-    <link rel="canonical" href="{{seo.url}}" />
-    <meta name="description" content="{{seo.description}}" />
-    <meta property="og:title" content="{{seo.title}}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="{{seo.url}}" />
-    <meta property="og:description" content="{{seo.description}}" />
-    <meta property="og:image" content="{{seo.image}}" />
-    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="{{seo.url}}"/>
+    <meta name="description" content="{{seo.description}}"/>
+    <meta property="og:title" content="{{seo.title}}"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="{{seo.url}}"/>
+    <meta property="og:description" content="{{seo.description}}"/>
+    <meta property="og:image" content="{{seo.image}}"/>
+    <meta name="twitter:card" content="summary"/>
 
     <!-- Import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/style.css"/>
 
     <!-- This is a handlebars IF statement
          Checking for a custom "color" parameter from server.js -->
     {{#if color}}
-      <!-- If there is a color value, update the style for the page title -->
-      <style>
-        .title { color:
-        {{color}}; }
-      </style>
+        <!-- If there is a color value, update the style for the page title -->
+        <style>
+            .title {
+                color:
+                {{color}};
+            }
+        </style>
     {{/if}}
-  </head>
-  <body>
-    <header class='header'>
-             <div class='header__content'>
-              <h1 class='title'>Игра: угадай слово!</h1>
-                {{#if user.name}}
-                    <div class="profile"><span class="profile__icon"></span><span class="profile__name">{{user.name}}</span></div>
-                {{/if}}
-             </div>
-        </header>
+</head>
+<body>
+<header class='header'>
+    <div class='header__content'>
+        <h1 class='title'>Игра: угадай слово!</h1>
+        {{#if user.name}}
+            <div class="profile"><span class="profile__icon"></span><span class="profile__name">{{user.name}}</span>
+            </div>
+        {{/if}}
+    </div>
+</header>
 
-    <div class="wrapper">
-      <div class="content" role="main">
+
+<div class="wrapper">
+    <div class="content" role="main">
 
         <!-- Add text indicating that we've changed color OR had an error -->
         <div class="room-name"><span>Комната:</span><span>{{room.name}}</span></div>
 
-           <div class="form-word" id="form-add-word"
-           style="{{#if user.word}} display: none {{else}} display: block {{/if}}">
-             <label>Введите ваше слово:</label>
-             <input type="text" id="input-add-word">
-             <button id="btn-add-word" class="button-link" data-user-id="{{user.id}}" data-room-id="{{room.id}}">Сохранить</button>
-           </div>
-
-        <div class="form-word" id="form-word"
-           style="{{#if user.word}} display: block {{else}} display: none {{/if}}">
-           <div><span>Ваше слово:<span><span id="your-word">{{user.word}}<span></div>
+        <div class="form-word" id="form-add-word"
+             style="{{#if user.word}} display: none {{else}} display: block {{/if}}">
+            <label>Введите ваше слово:</label>
+            <input type="text" id="input-add-word">
+            <button id="btn-add-word" class="button-link" data-user-id="{{user.id}}" data-room-id="{{room.id}}">
+                Сохранить
+            </button>
         </div>
 
+        <div class="form-word" id="form-word"
+             style="{{#if user.word}}display: block{{else}}display: none{{/if}}">
+            <div><span>Ваше слово:<span><span id="your-word">{{user.word}}<span></div>
+        </div>
 
+        <h2 class="users__title">Пользователи</h2>
         <div class="users" id="users" data-user-id="{{user.id}}">
 
         </div>
 
         {{#if user.isAdmin}}
-        <button class="button-link" id="btn-start" disabled data-room-id="{{room.id}}">Начать игру</button>
+            <button class="button-link" id="btn-start" disabled data-room-id="{{room.id}}">Начать игру</button>
         {{/if}}
 
-      </div>
     </div>
-    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
-    <footer class="footer">
-       <a href="/" class="footer__link">Все комнаты</a>
-    </footer>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
-    <script src="/room.js"></script>
-  </body>
+</div>
+<!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
+<footer class="footer">
+    <a href="/" class="footer__link">Все комнаты</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+<script src="/room.js"></script>
+</body>
 </html>

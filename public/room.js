@@ -21,16 +21,15 @@ socket.on('hello', () => {
     console.log('hello');
 });
 
-socket.emit('connection');
-
 
 const roomId = btnAddWordElem.dataset.roomId;
 const userId = usersElem.dataset.userId;
+
+socket.emit('getRoom', {roomId});
+
 socket.on(`roomUpdate${roomId}`, (data) => {
 
     const {room} = data;
-
-
 
     console.log('rooms update', room);
     if (!room.isStart) {
