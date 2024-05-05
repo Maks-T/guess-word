@@ -1,62 +1,68 @@
 <html>
   <head>
 
-    <!-- 
-      This is the main Handlebars template for the site 
-      - When the user visits the homepage or submits a color the app calls the endpoints in server.js
-      - The server script passes data in here and the Handlebars code builds it into the HTML page
-    -->
-
     <meta charset='utf-8' />
-    <link rel='icon' href='https://glitch.com/favicon.ico' />
+    <link rel='icon' href='/favicon.ico' />
     <meta name='viewport' content='width=device-width, initial-scale=1' />
 
-    <title>{{seo.title}}</title>
+    <title>Registration</title>
 
     <!-- Meta tags for SEO and social sharing -->
-    <link rel='canonical' href='{{seo.url}}' />
-    <meta name='description' content='{{seo.description}}' />
-    <meta property='og:title' content='{{seo.title}}' />
-    <meta property='og:type' content='article' />
-    <meta property='og:url' content='{{seo.url}}' />
-    <meta property='og:description' content='{{seo.description}}' />
-    <meta property='og:image' content='{{seo.image}}' />
-    <meta name='twitter:card' content='summary' />
 
-    <!-- Import the webpage's stylesheet -->
-    <link rel='stylesheet' href='/style.css' />
+    <!-- Import the webpage's fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter&display=swap" >
 
-  </head>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/register.css">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <body>
-   <header class='header'>
-            <div class='header__content'>
-             <h1 class='title'>Игра: угадай слово!</h1>
-               {{#if userInfo.name}}
-                   <div class="profile"><span class="profile__icon"></span><span class="profile__name">{{userInfo.name}}</span></div>
-               {{/if}}
+
+    <div class="container" id="container">
+        <div class="content">
+            <div class="content__title">
+                Registration
             </div>
-       </header>
+            <div class="form">
+                <div class="form__box">
+                    <div class="form__title">Please, add your</div>
+                <input type="text" placeholder="Name" name="name">
+                <input type="text" placeholder="Surname" name="surname">
 
-    <div class='wrapper'>
-      <div class='content' role='main'>
+                <div class="form__radios">
+                    <div class="form__group">
+                        <input type="radio" name="sex" value="male" id="sex_male" checked>
+                        <label for="sex_male">Male</label>
+                    </div>
+                    <div class="form__group"><input type="radio" name="sex" value="female" id="sex_female">
+                        <label for="sex_female">Female</label>
+                    </div>
+                </div>
+
+                <div class="avatars" id="avatars">
 
 
-        <label>Введите Ваше имя:</label>
-        <input type="text" id="inputName">
 
-        <button class="button-link" id="btn-save-name" data-back-url="{{ backUrl }}">Сохранить</button>
+                </div>
+                </div>
+
+
+
+            </div>
         </div>
-
-      </div>
+        <button class="btn" id="btn-save" disabled>save</button>
     </div>
-    <!-- The footer holds our remix button — you can use it for structure or cut it out ✂ -->
-    <footer class='footer'>
 
-    </footer>
-
-    <script
-      src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js'
-    ></script>
-    <script src="/register.js"></script>
+    <script src='/script.js'></script>
+    <script src='/index.js'></script>
+    <script src='/register.js'></script>
   </body>
 </html>

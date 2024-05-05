@@ -1,0 +1,12 @@
+
+@use 'sass:math';
+
+@function em($pxSize, $baseSize: 18) {
+  $emSize: math.round($pxSize / $baseSize * 10) / 10;
+  @return $emSize + em;
+}
+
+@function pr($pxSize, $baseHeight: 730) {
+
+  @return  calc(100vh / #{$baseHeight} * #{$pxSize});
+}

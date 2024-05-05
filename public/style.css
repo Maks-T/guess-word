@@ -1,278 +1,239 @@
-
-/* Reset CSS */
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Global styles */
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f0f0f0;
-  color: #333;
-
-}
-
-.wrapper {
-  max-width: 600px;
-  margin: 0 auto;
-
-  min-height: 70vh;
-}
-
-.header {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  text-align: right;
-  height: 9vh;
-  margin-bottom: 10px;
-}
-
-.header__content {
+  font-size: 1em;
+  background: rgb(250, 244, 229);
+  width: 100vw;
+  max-height: 100vh;
+  height: -webkit-fill-available;
   display: flex;
-  justify-content: space-between;
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: right;
-}
-
-.profile {
-  display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-content: center;
-  flex-wrap: nowrap;
-  gap: 8px;
-  width: max-content;
-  cursor: pointer;
+  align-items: center;
 }
 
-.profile:hover {
-  opacity: 0.85;
-}
-
-.profile__icon {
-  display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
-
-  background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 129 129" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 129 129"><g><g><path d="m64.3,71.6c18,0 32.6-14.6 32.6-32.6s-14.6-32.5-32.6-32.5-32.6,14.6-32.6,32.5 14.6,32.6 32.6,32.6zm0-56.6c13.2,0 24,10.8 24,24s-10.8,24-24,24-24-10.8-24-24 10.8-24 24-24z" fill="white" /><path d="m7.9,122.5h113.2c2.4,0 4.3-1.9 4.3-4.3 0-22.5-18.3-40.9-40.9-40.9h-40c-22.5,0-40.9,18.3-40.9,40.9-1.33227e-15,2.4 1.9,4.3 4.3,4.3zm36.6-36.6h40c16.4,0 29.9,12.2 32,28h-104c2.1-15.7 15.6-28 32-28z" fill="white" /></g></g></svg>');
-
-  background-repeat: no-repeat;
-  background-size: contain;
-
-}
-
-.profile__name {
-  color: #fff;
-  text-align: center;
-  font-weight: bold;
-}
-
-.form-word {
-  padding: 15px;
-}
-
-form {
+.container {
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
+  justify-content: space-between;
+  height: 100%;
+  margin: 0 auto;
+  padding: calc(100vh / 730 * 36) calc(100vh / 730 * 16);
 }
-
-label {
-  font-weight: 600;
-
-}
-
-input[type="text"] {
-  max-width: 300px;
-  padding: 5px 10px;
-  border: 1px solid #007bff;
-  outline: 1px solid #007bff;
-  border-radius: 4px;
-  font-weight: 700;
-}
-
-input[type="text"]:focus {
-  box-shadow: 2px 2px 15px 4px #007bff33;
+.container:after {
+  position: absolute;
+  width: 140%;
+  height: 100%;
+  display: block;
+  content: "";
+  z-index: -1;
+  left: -20%;
+  top: 0;
+  background: url("./assets/background.svg") no-repeat center;
+  background-size: contain;
+  box-shadow: 2px 2px 4px 2000px rgba(255, 166, 132, 0.3019607843);
 }
 
 .title {
-  display: inline-block;
-  font-size: 20px;
+  border-radius: calc(100vh / 730 * 20);
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.6);
+  padding: calc(100vh / 730 * 3) calc(100vh / 730 * 16);
+  width: max-content;
+  font-family: Michroma, serif;
+  font-size: 1.4em;
+  font-weight: 400;
+  line-height: normal;
+  color: rgb(15, 15, 15);
 }
 
-
-.room {
+.content {
   display: flex;
-  align-items: center;
-
-  padding: 10px;
-  gap: 10px;
-  border: 2px solid #007bff;
-  border-radius: 8px;
-  width: min-content;
-
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: calc(100vh / 730 * 100);
+  flex-grow: 1;
+}
+.content__title {
+  font-family: Michroma, serif;
+  font-size: 1.6em;
+  font-weight: 400;
+  line-height: 100%;
+  color: rgb(15, 15, 15);
 }
 
-
-.room a {
-  background: #007bff;
-  border-radius: 2px;
-  padding: 0 2px;
-  color: white;
-  text-decoration: none;
-
+.game-title {
+  font-family: Josefin Sans, serif;
+  font-size: 5em;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: -0.5px;
+  text-align: left;
+  color: rgb(201, 38, 128);
 }
 
-
-.room-name {
-  padding: 5px 15px;
-  background: rgb(214 254 251 / 57%);
-  margin: 0 auto;
+.game-subtitle {
+  align-self: end;
+  padding-right: calc(100vh / 730 * 36);
+  font-family: Homemade Apple, serif;
+  font-size: 2.8em;
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.5px;
+  text-align: right;
+  color: rgb(121, 155, 38);
 }
 
-.room-name span:first-child {
-  font-weight: bold;
-  margin-right: 10px;
+.form {
+  width: 100%;
 }
-
-.rooms__title,
-.users__title {
-  text-align: center;
-  font-size: 18px;
-  margin-top: 15px;
+.form .form__box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: calc(100vh / 730 * 12);
+  margin-top: calc(100vh / 730 * 24);
+  padding: calc(100vh / 730 * 24) calc(100vh / 730 * 20) calc(100vh / 730 * 56) calc(100vh / 730 * 20);
+  border-radius: calc(100vh / 730 * 20);
+  background: rgb(179, 205, 238);
 }
-
-.rooms,
-.users {
+.form__title {
+  font-family: Inter, serif;
+  font-size: 1em;
+  font-weight: 600;
+  line-height: normal;
+  color: rgb(15, 15, 15);
+}
+.form input[type=text] {
+  align-self: stretch;
+  flex-grow: 1;
+  padding: calc(100vh / 730 * 11) calc(100vh / 730 * 16);
+  font-size: 1em;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  border-radius: calc(100vh / 730 * 10);
+}
+.form__radios {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 10px;
-  padding: 15px;
-  min-height: 200px;
-
-  border: 1px solid #a5bed5;
-  border-radius: 4px;
-
-  transition: all 0.4s;
+  width: 100%;
 }
-
-.user {
-  display: grid;
-  grid-template-columns: repeat(2, min-content);
-  grid-template-rows: repeat(2, min-content);
-
-  grid-template-areas:
-     "icon name"
-     "icon word"
-  ;
-
-  min-height: 71px;
-  align-items: center;
-
-  padding: 5px;
-  border: 2px solid #007bff;
-  border-radius: 8px;
-  width: min-content;
-
+.form__group {
+  width: 49%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: calc(100vh / 730 * 10);
 }
-
-.user span:nth-child(1) {
-  grid-area: icon;
+.form label {
+  font-family: Inter;
+  color: white;
+  font-size: 1em;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0em;
 }
-
-.user span:nth-child(2) {
-  grid-area: name;
-
+.form input[type=checkbox],
+.form input[type=radio] {
+  transform: scale(1.2);
+  accent-color: #F52CA0;
 }
-
-.user span:nth-child(3) {
+.form__link {
+  position: relative;
+  border-radius: calc(100vh / 730 * 20);
+  padding: calc(100vh / 730 * 8) calc(100vh / 730 * 36) calc(100vh / 730 * 8) calc(100vh / 730 * 20);
+  background: rgba(255, 255, 255, 0.6705882353);
+  font-family: "Krona One", sans-serif;
+  font-weight: 400;
+  font-size: 0.7em;
+  text-align: left;
+  line-height: normal;
+  word-break: break-word;
+  letter-spacing: -0.1em;
+  color: #000;
+  cursor: pointer;
+}
+.form__link:active {
+  transition: all 0.2s ease-in-out;
+  background: #F52CA0;
+  color: white;
+}
+.form__link:active .form__link_btn-copy {
+  background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><svg fill="white" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve"><g id="Text-files"><path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"/><path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"/><path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"/><path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997S39.16465,29.4603004,38.6031494,29.4603004z"/><path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997S29.0059509,37.5872993,28.4444485,37.5872993z"/></g></svg>');
+}
+.form__link_btn-copy {
+  position: absolute;
+  right: calc(100vh / 730 * 10);
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-block;
-  grid-area: word;
-  padding: 4px 10px;
-  font-weight: 600;
-
-  color: orangered;
-  text-shadow: #baff00e6 1px 1px 5px;
+  width: calc(100vh / 730 * 20);
+  height: calc(100vh / 730 * 26);
+  background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><svg fill="%23000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve"><g id="Text-files"><path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"/><path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"/><path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"/><path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997S39.16465,29.4603004,38.6031494,29.4603004z"/><path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997S29.0059509,37.5872993,28.4444485,37.5872993z"/></g></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  border: none;
+  outline: none;
+  padding: 0 calc(100vh / 730 * 8);
 }
 
-.user span:nth-child(3):empty {
-  display: none;
+.description__item {
+  list-style-type: "✓ ";
+  list-style-position: inside;
+  font-family: Inter, serif;
+  font-size: 0.9em;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0em;
+  color: white;
 }
 
-
-.user span:first-child {
-  width: 18px;
-  height: 18px;
-  background-color: #c7d3e1;
-  color: #fff;
-  border-radius: 50%;
+.btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
-}
-
-.footer {
-  margin-top: 20px;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
-  text-align: center;
-  height: 8vh;
-}
-
-.footer__link {
-  color: #fff;
-
-}
-
-/* Общие стили кнопок ссылок */
-.button-link {
-  display: inline-block;
-  padding: 10px 20px;
-
-  margin: 0 auto;
-  font-size: 16px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #fff;
-  background-color: #007bff;
+  width: 100%;
+  height: calc(100vh / 730 * 72);
+  border-radius: calc(100vh / 730 * 20);
+  background: rgb(255, 47, 161);
   border: none;
-  border-radius: 5px;
+  outline: none;
+  font-family: Krona One, serif;
+  font-size: 2.2em;
+  font-weight: 400;
+  line-height: normal;
+  text-transform: capitalize;
+  text-decoration: none;
+  text-align: center;
+  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
-
-.button-link:disabled {
-  background-color: rgb(200, 203, 211);
+.btn:disabled {
+  background: #D6ACC3;
   cursor: not-allowed;
+  color: #DCC7D3;
+}
+.btn:disabled:hover {
+  opacity: 1;
+}
+.btn:disabled:active {
+  transform: none;
+}
+.btn:hover {
+  opacity: 0.85;
+}
+.btn:active {
+  transform: translate(1px, 1px);
 }
 
-.button-link:hover:disabled {
-  background-color: rgb(200, 203, 211);
-
-}
-.button-link:active:disabled {
-  background-color: rgb(200, 203, 211);
-}
-
-
-/* Стили при наведении */
-.button-link:hover {
-  background-color: #0056b3;
-}
-
-/* Стили при нажатии */
-.button-link:active {
-  background-color: #004080;
-}
+/*# sourceMappingURL=style.css.map */

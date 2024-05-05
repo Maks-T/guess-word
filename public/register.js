@@ -1,42 +1,189 @@
-function generateId() {
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let randomString = '';
 
-  for (let i = 0; i < 5; i++) {
-    randomString += characters.charAt(
-      Math.floor(Math.random() * characters.length)
-    );
-  }
+class Avatars {
+    countFemales = 48;
+    countMales = 55;
 
-  return randomString;
+    curSex = 'male';
+    curAvatarNumber = 1;
+
+    constructor(root, assetsPaths = '/assets/avatars/') {
+        this.root = root;
+        this.assetsPaths = assetsPaths;
+
+        this.render();
+    }
+
+    render = () => {
+        this.curAvatarNumber = Math.floor(Math.random() *  this.getMaxAvatarCount()) + 1;
+        this.createElements();
+    }
+
+    setCurAvatarNumber = (avatarNumber) => {
+        this.curAvatarNumber = avatarNumber;
+        this.avatarImg.src = this.getImgSrc(avatarNumber);
+    }
+    
+    setCurSex = (sex) => {
+        this.curSex = sex;
+        this.render();
+    }
+
+    createElements = () => {
+        this.root.innerHTML = '';
+
+        const avatarWrapElem = this.createAvatarElement();
+        const sliderElement = this.createSliderElement();
+        this.root.append(avatarWrapElem, sliderElement);
+    }
+
+    getMaxAvatarCount = () => {
+        return this.curSex === 'male' ? this.countMales : this.countFemales;
+    }
+
+    getImgSrc = (avatarNumber) => {
+        return `${this.assetsPaths}${this.curSex}/${this.curSex}_${avatarNumber}.png`;
+    }
+
+    getCurImgSrc = () => this.getImgSrc(this.curAvatarNumber);
+
+
+    createAvatarElement = () => {
+        const avatarWrapElem = document.createElement('div');
+        avatarWrapElem.classList.add('avatar');
+
+        this.avatarImg = document.createElement('img');
+        this.avatarImg.src = this.getImgSrc(this.curAvatarNumber);
+
+        avatarWrapElem.append(this.avatarImg);
+
+        return avatarWrapElem;
+    }
+
+    createSliderElement = () => {
+        const sliderContainerElem = document.createElement('div');
+        sliderContainerElem.classList.add('avatars__slider_container');
+
+        const sliderElem = document.createElement('div');
+        sliderElem.classList.add('swiper', 'avatars__slider');
+
+        const slidesElem = this.createSlidesElement();
+        slidesElem.classList.add('swiper-wrapper');
+
+        sliderElem.append(slidesElem);
+
+        sliderContainerElem.append(sliderElem);
+
+        this.slider = this.createSliderSwiper(sliderElem);
+
+        return sliderContainerElem;
+    }
+
+    createSlidesElement = () => {
+        const sliderWrapperElem = document.createElement('div');
+        sliderWrapperElem.classList.add('swiper-wrapper');
+
+        const maxCount = this.getMaxAvatarCount();
+
+        const slides = [];
+
+        for (let i= 1; i <=maxCount; i++)
+        {
+            const slideElem = document.createElement('div');
+            slideElem.classList.add('swiper-slide');
+            slideElem.dataset.number = String(i);
+
+            const imgElem = document.createElement('img');
+            imgElem.src = this.getImgSrc(i);
+
+            slideElem.append(imgElem);
+
+            slides.push(slideElem);
+
+        }
+        slides.sort((a,b) => Math.random() - 0.5);
+
+        sliderWrapperElem.append(...slides);
+
+        return sliderWrapperElem;
+    }
+
+    createSliderSwiper = (sliderElement) => {
+        console.log('sliderElement  ', sliderElement)
+        return new Swiper(sliderElement, {
+
+            loop: true,
+
+            slidesPerView: 5.5,
+            spaceBetween: 10,
+
+            on: {
+                click: (swiper, event) => {
+                  const avatarNumber  = swiper.clickedSlide.dataset.number ?? null;
+
+                  if (avatarNumber) {
+                      this.setCurAvatarNumber(avatarNumber);
+                  }
+                },
+            }
+
+        });
+
+    }
+
 }
 
-// Получаем элементы DOM
-const inputName = document.getElementById('inputName');
-const saveNameBtn = document.getElementById('btn-save-name');
+const avatarsElem = document.getElementById('avatars');
 
-// Добавляем обработчик события на кнопку сохранения
-saveNameBtn.addEventListener('click', function () {
-  // Получаем значение из поля ввода
+const avatars = new Avatars(avatarsElem);
 
-  if (!inputName.value) return;
+const radios = container.querySelector('.form__radios');
 
-  // Устанавливаем куку с именем и значением
+radios.addEventListener('change', (e) => {
+   const target = e.target;
 
-  const userInfo = {
-    name: inputName.value,
-    id: generateId(),
-  };
+   if (target && (target.name = 'sex') && target.checked) {
 
-  const encodedUserInfo = encodeURIComponent(JSON.stringify(userInfo));
-
-  if (document.cookie) {
-    document.cookie = `${document.cookie}; userInfo=${encodedUserInfo}`;
-  } else {
-    document.cookie = `userInfo=${encodedUserInfo}`;
-  }
-
-  const backUrl = saveNameBtn.dataset.backUrl ?? '';
-  window.location.href = `/${backUrl}`.replace('//', '/');
+       avatars.setCurSex(target.value);
+   }
 });
+
+const btnSaveElem = document.getElementById('btn-save');
+const nameElem = document.querySelector('[name="name"]');
+const surnameElem = document.querySelector('[name="surname"]');
+
+const capitalize = (string)  => string.charAt(0).toUpperCase() + string.slice(1);
+
+
+const handleInputs = () => {
+    if (!nameElem.value || !surnameElem.value) {
+        btnSaveElem.disabled = true;
+    }
+
+    if (nameElem.value && surnameElem.value) {
+
+        btnSaveElem.disabled = false;
+    }
+}
+
+nameElem.addEventListener('input', handleInputs);
+surnameElem.addEventListener('input', handleInputs);
+
+btnSaveElem.addEventListener('click', () => {
+    btnSaveElem.disabled = true;
+
+    const userInfo = {
+        name: capitalize(nameElem.value),
+        surname: capitalize(surnameElem.value),
+        sex: avatars.curSex,
+        avatar: avatars.getCurImgSrc()
+    };
+
+    socket.emit('addUser', userInfo);
+
+    socket.on('addUser', (userInfo) => {
+        setCookies('userInfo', userInfo);
+        location.reload();
+        console.log(userInfo);
+    });
+
+})

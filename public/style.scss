@@ -1,0 +1,300 @@
+@import "functions.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+
+}
+
+body {
+  font-size: 1em;
+  background: rgb(250, 244, 229);
+
+  width: 100vw;
+  max-height: 100vh;
+  height: -webkit-fill-available;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+
+  margin: 0 auto;
+  padding: pr(36) pr(16);
+
+  &:after {
+    position: absolute;
+    width: 140%;
+    height: 100%;
+    display: block;
+    content: '';
+    z-index: -1;
+
+    left: -20%;
+    top: 0;
+    background: url("./assets/background.svg") no-repeat center;
+    background-size: contain;
+    box-shadow: 2px 2px 4px 2000px #ffa6844d;
+  }
+}
+
+.title {
+  border-radius: pr(20);
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.6);
+  padding: pr(3) pr(16);
+  width: max-content;
+
+  font-family: Michroma, serif;
+  font-size: em(26);
+  font-weight: 400;
+  line-height: normal;
+  color: rgb(15, 15, 15);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: pr(100);
+
+  flex-grow: 1;
+
+  &__title {
+    font-family: Michroma, serif;
+    font-size: em(28);
+    font-weight: 400;
+    line-height: 100%;
+    color: rgb(15, 15, 15);
+  }
+
+}
+
+
+.game-title {
+  font-family: Josefin Sans, serif;
+  font-size: em(90);
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: -0.5px;
+  text-align: left;
+  color: rgb(201, 38, 128);
+}
+
+.game-subtitle {
+  align-self: end;
+  padding-right: pr(36);
+  font-family: Homemade Apple, serif;
+  font-size: em(50);
+  font-weight: 400;
+  line-height: 100%;
+  letter-spacing: -0.5px;
+  text-align: right;
+  color: rgb(121, 155, 38);
+}
+
+.form {
+  width: 100%;
+
+
+  .form__box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: stretch;
+    gap: pr(12);
+
+    margin-top: pr(24);
+    padding: pr(24) pr(20) pr(56) pr(20);
+
+    border-radius: pr(20);
+    background: rgb(179, 205, 238);
+
+  }
+
+
+  &__title {
+    font-family: Inter, serif;
+    font-size: em(18);
+    font-weight: 600;
+    line-height: normal;
+    color: rgb(15, 15, 15);
+  }
+
+  input[type="text"] {
+    align-self: stretch;
+    flex-grow: 1;
+    padding: pr(11) pr(16);
+    font-size: em(18);
+    font-weight: 500;
+
+    border: none;
+    outline: none;
+
+    border-radius: pr(10);
+  }
+
+  &__radios {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+
+  }
+
+  &__group {
+    width: 49%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: pr(10);
+  }
+
+  label {
+    font-family: Inter;
+    color: white;
+
+    font-size: em(18);
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: em(-0.4);
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    transform: scale(1.2);
+    accent-color: #F52CA0;
+  }
+
+  &__link {
+    position: relative;
+    border-radius: pr(20);
+    padding: pr(8) pr(36) pr(8) pr(20);
+
+    background: #ffffffab;
+
+    font-family: "Krona One", sans-serif;
+    font-weight: 400;
+    font-size: em(12);
+    text-align: left;
+    line-height: normal;
+    word-break: break-word;
+    letter-spacing: em(-2);
+    color: #000;
+
+    cursor: pointer;
+
+    &:active {
+      transition: all 0.2s ease-in-out;
+      background: #F52CA0;
+      color: white;
+
+      .form__link_btn-copy {
+        background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><svg fill="white" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve"><g id="Text-files"><path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"/><path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"/><path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"/><path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997S39.16465,29.4603004,38.6031494,29.4603004z"/><path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997S29.0059509,37.5872993,28.4444485,37.5872993z"/></g></svg>');
+      }
+
+    }
+
+    &_btn-copy {
+      position: absolute;
+      right: pr(10);
+      top: 50%;
+      transform: translateY(-50%);
+
+      display: inline-block;
+      width: pr(20);
+      height: pr(26);
+
+      background-image: url('data:image/svg+xml,<%3Fxml version="1.0" encoding="utf-8"%3F><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><svg fill="%23000000" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve"><g id="Text-files"><path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"/><path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"/><path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"/><path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997S39.16465,29.4603004,38.6031494,29.4603004z"/><path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997S29.0059509,37.5872993,28.4444485,37.5872993z"/></g></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: bottom;
+
+      border: none;
+      outline: none;
+
+      padding: 0 pr(8);
+
+    }
+  }
+}
+
+.description {
+
+  &__item {
+    list-style-type: '✓ ';
+    list-style-position: inside;
+
+    font-family: Inter, serif;
+
+    font-size: em(17);
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: em(-0.4);
+    color: white;
+  }
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: pr(72);
+
+  border-radius: pr(20);
+  background: rgb(255, 47, 161);
+  border: none;
+  outline: none;
+
+  font-family: Krona One, serif;
+  font-size: em(40);
+  font-weight: 400;
+  line-height: normal;
+  text-transform: capitalize;
+  text-decoration: none;
+
+  text-align: center;
+  color: white;
+
+  cursor: pointer;
+
+  &:disabled {
+    background: #D6ACC3;
+    cursor: not-allowed;
+    color: #DCC7D3;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &:active {
+      transform: none;
+    }
+
+  }
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:active {
+    transform: translate(1px, 1px);
+  }
+}
