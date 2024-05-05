@@ -2,8 +2,21 @@ body {
   background: #FFE273;
 }
 
+.content {
+  margin-bottom: 0;
+  height: 70%;
+}
+
 .users {
+  height: 90%;
+  margin: calc(100vh / 730 * 25) 0;
   width: 100%;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+.users::-webkit-scrollbar {
+  width: 0;
 }
 .users .user__main {
   display: flex;

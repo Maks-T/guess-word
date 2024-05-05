@@ -8,8 +8,21 @@ body {
 
 }
 
+.content {
+  margin-bottom: 0;
+  height: 70%;
+}
+
 .users {
+  height: 90%;
+
+  margin: pr(25) 0;
   width: 100%;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+
+  &::-webkit-scrollbar { width: 0; }
 
   .user {
 
