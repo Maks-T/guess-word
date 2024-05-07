@@ -2,24 +2,46 @@ const btnAddTeamElem = document.getElementById('btn-start-game');
 const usersElem = document.getElementById('users');
 const teamId = document.getElementById('team-id').value;
 
+
 const STATUS_GAME = {
     START: 1,
     READY: 2,
     RUN: 3
 }
 
+
+
+const userInfo = getCookie('userInfo');
+
+const curUser = JSON.parse(userInfo);
+
 socket.on(`changeTeam${teamId}`, (team) => {
+    const isAdmin = curUser.id === team.adminId;
 
     console.log(team)
+    if (isAdmin && team.status === STATUS_GAME.READY) {
+        btnAddTeamElem.style.display = 'block';
+    } else {
+        btnAddTeamElem.style.display = 'none';
+    }
 
-    renderTeam(team, usersElem);
+
+    renderTeam(team, usersElem, isAdmin);
 });
 
 socket.emit('getTeam', teamId);
 
+socket.emit('getTeam', teamId);
+socket.on(`removeUserTeam${teamId}${curUser.id}`, () => {
+    location.replace('/teams');
+});
+
+btnAddTeamElem.addEventListener('click', () => {
+    socket.emit('startGame', teamId);
+});
 
 
-function renderTeam(team, rootElem) {
+function renderTeam(team, rootElem, isAdmin) {
     if (Object.values(team.users).length) {
         usersElem.innerHTML = '';
 
@@ -44,11 +66,15 @@ function renderTeam(team, rootElem) {
             const userIconsElem = document.createElement('div');
             userIconsElem.classList.add('user__icons');
 
-            if (true/*isAdmin*/) {
+            if (isAdmin && team.adminId !== user.id) {
                 const userIconRemoveElem = document.createElement('span');
                 userIconRemoveElem.classList.add('user__icons_icon','remove');
-                userIconRemoveElem.dataset.userId = user.id;
                 userIconsElem.append(userIconRemoveElem);
+
+                userIconRemoveElem.addEventListener('click', () => {
+                    console.log({userId: user.id, teamId: team.id});
+                    socket.emit('removeUserTeam', {userId: user.id, teamId: team.id});
+                })
             }
 
             const userIconStatusElem = document.createElement('span');
@@ -74,8 +100,46 @@ function renderTeam(team, rootElem) {
             }
 
             rootElem.append(userElem);
+
         });
     }
+}
+
+function removeUserFromTeam(teamId, userId) {
+    const url = `/team/${teamId}/remove_user`;
+    const data = {
+        id: userId
+    };
+
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+
+    fetch(url, requestOptions)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+
+            if (data.status === 'success') {
+
+            } else {
+
+            }
+
+            btnSaveElem.disabled = true;
+
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 

@@ -1,5 +1,17 @@
 const btnSaveElem = document.getElementById('btn-save');
 const wordElem = document.querySelector('[name="word"]');
+const teamId = document.getElementById('team-id').value;
+
+const userInfo = getCookie('userInfo');
+
+const curUser = JSON.parse(userInfo);
+
+
+socket.emit('getTeam', teamId);
+socket.on(`removeUserTeam${teamId}${curUser.id}`, () => {
+    location.replace('/teams');
+});
+
 const handleInputs = () => {
     if (!wordElem.value) {
         btnSaveElem.disabled = true;

@@ -47,7 +47,7 @@ const setCookies = (key, data, path='/') => {
     if (document.cookie) {
         document.cookie = `${document.cookie}; ${key}=${encodedData}; path=${path};`;
     } else {
-        document.cookie = `${key}=${encodedData}`;
+        document.cookie = `${key}=${encodedData}; path=${path};`;
     }
 }
 

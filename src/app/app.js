@@ -56,13 +56,39 @@ class App {
                 const team = this.teams[teamId];
 
                 if (team) {
-                    socket.emit(`changeTeam${teamId}`, team);
+                    this.changeTeam(team);
                 }
             });
 
             socket.on('getTeams', () => {
-                    socket.emit(`changeTeams`, this.teams);
+                    this.changeTeams();
             });
+
+            socket.on('removeUserTeam', ({userId, teamId}) => {
+
+                const team = this.teams[teamId];
+                if (team && team.users[userId]) {
+                    delete this.teams[teamId].users[userId];
+                    this.changeTeam(team);
+                    this.changeTeams();
+                    this.fastify.io.emit(`removeUserTeam${teamId}${userId}`);
+                }
+            });
+
+            socket.on('startGame', (teamId) => {
+                const team = this.teams[teamId];
+
+                if (team) {
+                    team.status = STATUS_GAME.RUN;
+
+                    this.shuffleWords(team);
+
+                    this.changeTeam(team);
+                    this.changeTeams();
+                }
+
+            });
+
 
         });
     }
@@ -137,8 +163,8 @@ class App {
             if (!team.users[user.id]) {
                 team.users[user.id] = {...user};
 
-                this.fastify.io.emit(`changeTeam${id}`, team);
-                this.fastify.io.emit(`changeTeams`, this.teams);
+                this.changeTeam(team)
+                this.changeTeams();
             }
 
             const params = {
@@ -183,7 +209,7 @@ class App {
 
             teamUser.addWord = word;
 
-            this.fastify.io.emit(`changeTeam${id}`, team);
+           this.changeTeam(team)
 
 
             return reply.send({status: 'success', id});
@@ -262,12 +288,51 @@ class App {
             users: {[admin.id]: admin}
         }
 
-        this.fastify.io.emit(`changeTeams`, this.teams);
+        this.changeTeams();
 
         return id;
     }
 
+    changeTeam = (team) => {
+        this.checkTeamStatusReady(team);
 
+        this.fastify.io.emit(`changeTeam${team.id}`, team);
+    }
+
+    changeTeams = () => {
+        this.fastify.io.emit(`changeTeams`, this.teams);
+    }
+
+    checkTeamStatusReady = (team) => {
+        if (team.status !== STATUS_GAME.RUN) {
+            const idWordsAdded = Object.values(team.users).every(user => !!user.addWord);
+            const countUsers = Object.keys(team).length;
+
+            if (idWordsAdded && countUsers >1) {
+                team.status = STATUS_GAME.READY;
+            } else {
+                team.status = STATUS_GAME.START;
+            }
+        }
+    }
+
+    shuffleWords = (team) => {
+        const users = Object.values(team.users).sort((a, b) => Math.random() - 0.5);
+
+        let prevUser = users.shift();
+
+        while (users.length) {
+            const curUser = users.shift();
+
+            prevUser.word = curUser.addWord;
+            curUser.word = prevUser.addWord;
+
+            prevUser = curUser;
+
+
+        }
+
+    }
 }
 
 module.exports = {App};
