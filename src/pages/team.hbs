@@ -28,12 +28,12 @@
 <div class="container" id="container">
      <input type="hidden" value="{{ teamId }}" id="team-id">
 
-     <div class="title">
-             {{ teamName }}
-        </div>
+     <div class="heading">
+         <a class="btn-back" href="/teams"></a><span class="title" onclick="navigator.clipboard.writeText('{{ link }}')">{{ teamName }}</span>
+     </div>
 
     <div class="content">
-       <div class="content__title">
+       </a><div class="content__title">
              Team's members
        </div>
         <div class="form">
@@ -46,6 +46,9 @@
 
     </div>
     <button class="btn" id="btn-start-game" style="display:none">Start Game</button>
+    <a class="btn" id="btn-quit-game" style="display:none" href="/teams">Quit Game</a>
+    <a class="btn" id="btn-leave-team" style="display:none" href="/teams">Leave Team</a>
+
 </div>
 
 </div>

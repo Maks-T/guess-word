@@ -26,8 +26,9 @@
 <body>
 
 <div class="container" id="container">
-    <div class="title">
-        {{ teamName }}
+
+    <div class="heading">
+        <a class="btn-back" href="/teams"></a><span class="title" onclick="navigator.clipboard.writeText('{{ link }}')">{{ teamName }}</span>
     </div>
 
     <div class="content">

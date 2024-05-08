@@ -113,4 +113,8 @@
   background-size: contain;
 }
 
+.team.run {
+  opacity: 0.5;
+}
+
 /*# sourceMappingURL=teams.css.map */

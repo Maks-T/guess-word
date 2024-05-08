@@ -1,4 +1,6 @@
-const btnAddTeamElem = document.getElementById('btn-start-game');
+const btnStartGameElem = document.getElementById('btn-start-game');
+const btnLeaveTeamElem = document.getElementById('btn-leave-team');
+const btnQuitGameElem = document.getElementById('btn-quit-game');
 const usersElem = document.getElementById('users');
 const teamId = document.getElementById('team-id').value;
 
@@ -10,34 +12,51 @@ const STATUS_GAME = {
 }
 
 
-
 const userInfo = getCookie('userInfo');
 
 const curUser = JSON.parse(userInfo);
 
-socket.on(`changeTeam${teamId}`, (team) => {
-    const isAdmin = curUser.id === team.adminId;
-
-    console.log(team)
+const showNeedBtn = (team, isAdmin) => {
     if (isAdmin && team.status === STATUS_GAME.READY) {
-        btnAddTeamElem.style.display = 'block';
-    } else {
-        btnAddTeamElem.style.display = 'none';
+        btnStartGameElem.style.display = 'flex';
+    } else if (!isAdmin && team.status !== STATUS_GAME.RUN) {
+        btnLeaveTeamElem.style.display = 'flex';
+    }
+     else if (!isAdmin && team.status === STATUS_GAME.RUN) {
+        btnQuitGameElem.style.display = 'flex';
+        btnLeaveTeamElem.style.display = 'none';
+     }
+    else {
+        btnStartGameElem.style.display = 'none';
     }
 
+}
+
+handleQuitTeam = (userId, teamId) => {
+    socket.emit('removeUserTeam', {userId, teamId});
+
+    location.replace('/teams');
+}
+
+btnLeaveTeamElem.addEventListener('click', () => handleQuitTeam(curUser.id, teamId));
+btnQuitGameElem.addEventListener('click', () => handleQuitTeam(curUser.id, teamId));
+
+socket.on(`changeTeam${teamId}`, (team) => {
+
+    const isAdmin = curUser.id === team.adminId;
+    showNeedBtn(team, isAdmin);
 
     renderTeam(team, usersElem, isAdmin);
 });
 
 socket.emit('getTeam', teamId);
 
-socket.emit('getTeam', teamId);
 socket.on(`removeUserTeam${teamId}${curUser.id}`, () => {
     location.replace('/teams');
 });
 
-btnAddTeamElem.addEventListener('click', () => {
-    socket.emit('startGame', teamId);
+btnStartGameElem.addEventListener('click', () => {
+    socket.emit('runGame', teamId);
 });
 
 
@@ -72,7 +91,7 @@ function renderTeam(team, rootElem, isAdmin) {
                 userIconsElem.append(userIconRemoveElem);
 
                 userIconRemoveElem.addEventListener('click', () => {
-                    console.log({userId: user.id, teamId: team.id});
+
                     socket.emit('removeUserTeam', {userId: user.id, teamId: team.id});
                 })
             }
@@ -93,8 +112,7 @@ function renderTeam(team, rootElem, isAdmin) {
             if (team.status === STATUS_GAME.RUN && user.word) {
                 const userWordElem = document.createElement('div');
                 userWordElem.classList.add('user__word');
-                userWordElem.innerHTML = user.word;
-
+                userWordElem.innerHTML = curUser.id === user.id ? '???' : user.word;
 
                 userElem.append(userMainElem, userWordElem);
             }

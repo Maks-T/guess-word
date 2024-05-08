@@ -75,7 +75,7 @@ class App {
                 }
             });
 
-            socket.on('startGame', (teamId) => {
+            socket.on('runGame', (teamId) => {
                 const team = this.teams[teamId];
 
                 if (team) {
@@ -134,11 +134,10 @@ class App {
                 return reply.send({status: 'error'});
             }
 
-            const {name, isPrivate} = request.body;
 
             const admin = {...this.users[userInfo.id]}; //?
 
-            const id = this.addTeam(name, isPrivate, admin);
+            const id = this.addTeam(admin, request);
 
             return reply.send({status: 'success', id});
         });
@@ -152,7 +151,7 @@ class App {
 
             const team = this.teams[id];
 
-            if (!team) return reply.redirect('/teams');
+            if (!team || team.status === STATUS_GAME.RUN) return reply.redirect('/teams');
 
             const userInfo = this.getUserInfo(request);
 
@@ -170,7 +169,8 @@ class App {
             const params = {
                 teamId: id,
                 userFullName: `${userInfo.name} ${userInfo.surname[0]}.`,
-                teamName: team.name
+                teamName: team.name,
+                link: team.link
             };
 
             const teamUser = team.users[user.id];
@@ -230,15 +230,11 @@ class App {
 
             if (!userInfo) reply.view('register.hbs', {});
 
-            const protocol = request.protocol;
-            const hostname = request.hostname;
-
-            const serverUrl = `${protocol}://${hostname}`;
 
             const params = {
                 teamId: id,
                 userFullName: `${userInfo.name} ${userInfo.surname[0]}.`,
-                link: `${serverUrl}/team/${id}`,
+                link: team.link,
                 teamName: team.name
             };
 
@@ -274,15 +270,18 @@ class App {
         return userInfo;
     }
 
-    addTeam = (name, isPrivate, admin) => {
+    addTeam = (admin, request) => {
+        const {name, isPrivate} = request.body;
         const id = generateId();
         const timestamp = Date.now();
+        const link = this.createLink(request, id);
 
         this.teams[id] = {
             name,
             id,
             timestamp,
             isPrivate,
+            link,
             status: STATUS_GAME.START,
             adminId: admin.id,
             users: {[admin.id]: admin}
@@ -304,14 +303,21 @@ class App {
     }
 
     checkTeamStatusReady = (team) => {
-        if (team.status !== STATUS_GAME.RUN) {
-            const idWordsAdded = Object.values(team.users).every(user => !!user.addWord);
-            const countUsers = Object.keys(team).length;
+        const countUsers = Object.keys(team.users).length;
 
-            if (idWordsAdded && countUsers >1) {
+        if (team.status !== STATUS_GAME.RUN) {
+            const idWordsAdded = Object.values(team.users).every(user => user.addWord);
+
+            if (idWordsAdded && countUsers > 1) {
                 team.status = STATUS_GAME.READY;
             } else {
                 team.status = STATUS_GAME.START;
+            }
+        }
+
+        if (team.status === STATUS_GAME.RUN) {
+            if (countUsers === 1) {
+                this.removeTeam(team);
             }
         }
     }
@@ -319,19 +325,32 @@ class App {
     shuffleWords = (team) => {
         const users = Object.values(team.users).sort((a, b) => Math.random() - 0.5);
 
-        let prevUser = users.shift();
+        let firstWord = users[0].addWord;
 
-        while (users.length) {
-            const curUser = users.shift();
+        for (let i = 0; i < users.length - 1; i++)
+        {
 
-            prevUser.word = curUser.addWord;
-            curUser.word = prevUser.addWord;
-
-            prevUser = curUser;
-
-
+            users[i].word = users[i+1].addWord; 
         }
 
+         users[users.length-1].word = firstWord;
+
+    }
+
+    createLink = (request, teamId) => {
+        const protocol = request.protocol;
+        const hostname = request.hostname;
+        const serverUrl = `${protocol}://${hostname}`;
+
+        return `${serverUrl}/team/${teamId}`;
+    }
+
+    removeTeam = (team) => {
+        Object.values(team.users).forEach(user => {
+            this.fastify.io.emit(`removeUserTeam${team.id}${user.id}`);
+        });
+
+        delete this.teams[team.id];
     }
 }
 

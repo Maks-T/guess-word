@@ -18,11 +18,17 @@ function renderTeams(teams, rootElem) {
         teamsElem.innerHTML = '';
 
         Object.values(teams).sort((a, b) => a.isPrivate - b.isPrivate).forEach((team) => {
-            const teamElem = document.createElement(team.isPrivate ? 'div': 'a');
+            const isUnavailable = team.isPrivate || team.status === STATUS_GAME.RUN;
+
+            const teamElem = document.createElement(isUnavailable  ? 'div': 'a');
             teamElem.classList.add('team');
 
-            if (!team.isPrivate) {
+            if (!isUnavailable) {
                 teamElem.href=`/team/${team.id}`;
+            }
+
+            if (team.status === STATUS_GAME.RUN) {
+                teamElem.classList.add('run');
             }
 
             const teamHeadingElem = document.createElement('div');
