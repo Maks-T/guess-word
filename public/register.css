@@ -15,6 +15,7 @@
 
 .avatars__slider_container {
   width: calc(100vh / 730 * 300);
+  height: calc(100vh / 730 * 50);
   margin-top: calc(100vh / 730 * 10);
 }
 
