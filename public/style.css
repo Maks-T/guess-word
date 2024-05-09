@@ -279,8 +279,12 @@ body {
 }
 
 .preloader {
+  width: 100%;
+}
+.preloader img {
   width: 50%;
-  margin: 0 auto;
+  margin-left: 50%;
+  transform: translateX(-50%);
   object-fit: contain;
 }
 

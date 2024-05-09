@@ -349,7 +349,12 @@ body {
 }
 
 .preloader {
-  width: 50%;
-  margin: 0 auto;
-  object-fit: contain;
+  width: 100%;
+
+  img {
+    width: 50%;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    object-fit: contain;
+  }
 }
