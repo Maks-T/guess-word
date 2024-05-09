@@ -101,6 +101,7 @@ class App {
         this.initPageTeamLink();
         this.initPageTeam();
         this.initPageTeamAddWord();
+        this.initPageAbout();
     }
 
     initPageIndex = () => {
@@ -112,8 +113,12 @@ class App {
     initPageTeams = () => {
         this.fastify.get('/teams', (request, reply) => {
 
+            const params = {
+                isTeams: !!(Object.keys(this.teams).length)
+            }
+
             return this.getUserInfo(request)
-                ? reply.view('teams.hbs', {})
+                ? reply.view('teams.hbs', params)
                 : reply.view('register.hbs', {});
         });
     }
@@ -239,6 +244,15 @@ class App {
             };
 
             return reply.view('team_link.hbs', params);
+        });
+    }
+
+    initPageAbout = () => {
+        this.fastify.get('/about', (request, reply) => {
+
+            return this.getUserInfo(request)
+                ? reply.view('about.hbs', {})
+                : reply.view('register.hbs', {});
         });
     }
 

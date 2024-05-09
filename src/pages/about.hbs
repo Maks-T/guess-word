@@ -18,7 +18,7 @@
 
     <!-- Import the webpage's stylesheet -->
    <link rel="stylesheet" href="/style.css">
-   <link rel="stylesheet" href="/teams.css">
+   <link rel="stylesheet" href="/about.css">
 
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js'></script>
   </head>
@@ -29,30 +29,32 @@
         <div class="content">
 
             <div class="heading">
-                <a class="btn-back" href="/"></a>
-                <div class="content__title">Teams</div>
+                <button class="btn-back" id="btn-back-page" ></button>
+                <div class="content__title">About Us</div>
             </div>
 
-            <div class="teams" id="teams">
-                {{#isTeams}}
-                  <img class="preloader" src="/assets/preloader.gif" alt="loading ... ">
-                {{/isTeams}}
+            <div class="workers">
 
-                {{^isTeams}}
-                <div class="empty-message">
-                    Be the First
+                <div class="worker">
+                    <p class="worker__position">Developer:</p>
+                    <a href="https://www.linkedin.com/in/maksim-tsatsura-17676a238/" class="worker__link">
+                        <span class="worker__link_icon"></span><span class="worker__link_fullname">Maksim Tsatsura</span>
+                    </a>
                 </div>
-                {{/isTeams}}
 
+                <div class="worker">
+                    <p class="worker__position">Ux\Ui Designer:</p>
+                    <a href="https://www.linkedin.com/in/yuliya-kravchenko/" class="worker__link">
+                        <span class="worker__link_icon"></span><span class="worker__link_fullname"></span>
+                    </a>
+                </div>
             </div>
         </div>
-        <a class="btn" href="/team_create">Add Team</a>
 
-        <a href="/about" class="btn-about"></a>
     </div>
 
 
     <script src="/script.js"></script>
-    <script src="/teams.js"></script>
+    <script src="/about.js"></script>
   </body>
 </html>
